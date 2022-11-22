@@ -1,3 +1,40 @@
 textarea {
-    min-height: 400px;
+  min-height: 400px;
+}
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+h4,
+p {
+  color: black;
+}
+a {
+  text-decoration: none;
+}
+.single-email {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+  width: 50vw;
+  height: 3em;
+  min-width: 420px;
+  border-color: rgba(12, 96, 253, 0.2);
+  border-style: solid;
+}
+.senderSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0;
+  gap: 1em;
+}
+.single-email h4,
+p {
+  font-size: small;
+  margin: 0;
 }
