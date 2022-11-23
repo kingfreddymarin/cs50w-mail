@@ -92,7 +92,7 @@ function load_mailbox(mailbox) {
         senderSection.appendChild(subject);
         newEmail.appendChild(senderSection);
         archiveDiv.appendChild(timestamp);
-        archiveDiv.appendChild(archive);
+        mailbox === "sent" ? "" : archiveDiv.appendChild(archive);
         newEmail.appendChild(archiveDiv);
 
         const defaultClass = newEmail.className;
