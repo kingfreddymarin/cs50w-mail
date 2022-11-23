@@ -14,6 +14,9 @@ p {
 a {
   text-decoration: none;
 }
+.read {
+  background-color: rgb(202, 202, 202);
+}
 .single-email {
   display: flex;
   justify-content: space-between;
@@ -37,4 +40,7 @@ a {
 p {
   font-size: small;
   margin: 0;
+}
+#single-email-body {
+  max-width: 750px;
 }

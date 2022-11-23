@@ -49,7 +49,13 @@ function load_mailbox(mailbox) {
     .then((emails) => {
       emails.forEach((email) => {
         //getting the email's id
-        const id = email.id;
+        const singleId = email.id;
+        const singleSubject = email.subject;
+        const singleSender = email.sender;
+        const singleTimestamp = email.timestamp;
+        const singleBody = email.body;
+        const singleRecipients = email.recipients;
+
         //createing clickable layer
         const newEmail = document.createElement("a");
         newEmail.className = "single-email";
@@ -72,19 +78,57 @@ function load_mailbox(mailbox) {
         newEmail.appendChild(senderSection);
         newEmail.appendChild(timestamp);
 
-        newEmail.addEventListener("click", () => singleEmail(id));
+        const defaultClass = newEmail.className;
+        newEmail.className = email.read
+          ? `${defaultClass} read`
+          : `${defaultClass} unread`;
 
+        newEmail.addEventListener("click", () =>
+          singleEmail(
+            singleId,
+            singleSender,
+            singleSubject,
+            singleBody,
+            singleTimestamp,
+            singleRecipients
+          )
+        );
         document.querySelector("#emails-view").append(newEmail);
       });
     });
 }
 
-const singleEmail = (id) => {
+const singleEmail = (
+  singleId,
+  singleSender,
+  singleSubject,
+  singleBody,
+  singleTimestamp,
+  singleRecipients
+) => {
+  fetch(`/emails/${singleId}`, {
+    method: "PUT",
+    body: JSON.stringify({
+      read: true,
+    }),
+  });
   document.querySelector("#emails-view").style.display = "none";
   document.querySelector("#compose-view").style.display = "none";
   document.querySelector("#single-email").style.display = "block";
 
-  console.log(id);
+  document.getElementById(
+    "single-email-subject"
+  ).innerHTML = `Subject: ${singleSubject}`;
+  document.getElementById(
+    "single-email-sender"
+  ).innerHTML = `From: ${singleSender}`;
+  document.getElementById(
+    "single-email-timestamp"
+  ).innerHTML = `TimeStamp: ${singleTimestamp}`;
+  document.getElementById("single-email-body").innerHTML = singleBody;
+  document.getElementById(
+    "single-email-recipients"
+  ).innerHTML = `To: ${singleRecipients}`;
 };
 
 const send_email = (event) => {

@@ -32,7 +32,14 @@
   </form>
 </div>
 <div id="single-email">
-  <h3>Hello There!</h3>
+  <h2 id="single-email-subject"></h2>
+  <div id="single-email-delivery">
+    <h6 id="single-email-sender"></h6>
+    <p id="single-email-timestamp"></p>
+  </div>
+  <p id="single-email-recipients"></p>
+  <button type+"submit" class="btn mt-2 mb-2 btn-dark">Reply</button>
+  <p id="single-email-body" class="mb-4"></p>
 </div>
 {% endblock %} {% block script %}
 <script src="{% static 'mail/inbox.js' %}"></script>
