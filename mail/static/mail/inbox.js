@@ -61,13 +61,22 @@ function load_mailbox(mailbox) {
         const singleBody = email.body;
         const singleRecipients = email.recipients;
 
+        const archiveDiv = document.createElement("div");
+        archiveDiv.className = "archiveDiv d-flex align-items-center";
+
+        const archive = document.createElement("button");
+        archive.className = email.archived
+          ? "btn-sm btn-light ml-2"
+          : "btn-sm btn-dark ml-2";
+        archive.innerHTML = email.archived ? "Unarchive" : "Archive";
         //createing clickable layer
-        const newEmail = document.createElement("a");
+        const newEmail = document.createElement("div");
         newEmail.className = "single-email";
-        newEmail.href = "#";
+        // newEmail.href = "#";
         //creating element that will contain the sender and the subject
-        const senderSection = document.createElement("div");
+        const senderSection = document.createElement("a");
         senderSection.className = "senderSection";
+        senderSection.href = "#";
         //content of the row
         const sender = document.createElement("h4");
         const subject = document.createElement("p");
@@ -81,14 +90,16 @@ function load_mailbox(mailbox) {
         senderSection.appendChild(sender);
         senderSection.appendChild(subject);
         newEmail.appendChild(senderSection);
-        newEmail.appendChild(timestamp);
+        archiveDiv.appendChild(timestamp);
+        archiveDiv.appendChild(archive);
+        newEmail.appendChild(archiveDiv);
 
         const defaultClass = newEmail.className;
         newEmail.className = email.read
           ? `${defaultClass} read`
           : `${defaultClass} unread`;
 
-        newEmail.addEventListener("click", () =>
+        senderSection.addEventListener("click", () =>
           singleEmail(
             singleId,
             singleSender,
@@ -98,6 +109,14 @@ function load_mailbox(mailbox) {
             singleRecipients
           )
         );
+        archive.addEventListener("click", () => {
+          fetch(`/emails/${email.id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+              archived: email.archived ? false : true,
+            }),
+          });
+        });
         document.querySelector("#emails-view").append(newEmail);
       });
     });
@@ -123,7 +142,7 @@ const singleEmail = (
 
   document.getElementById(
     "single-email-subject"
-  ).innerHTML = `Subject: ${singleSubject}`;
+  ).innerHTML = `${singleSubject}`;
   document.getElementById(
     "single-email-sender"
   ).innerHTML = `From: ${singleSender}`;
@@ -141,7 +160,7 @@ const singleEmail = (
 
     document.querySelector("#compose-recipients").value = singleSender;
     document.querySelector("#compose-subject").value = singleSubject.includes(
-      "Re: "
+      "Re:"
     )
       ? singleSubject
       : `Re: '${singleSubject}'`;
