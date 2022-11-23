@@ -89,13 +89,13 @@ function load_mailbox(mailbox) {
           : "btn-sm btn-dark ml-2";
         archive.innerHTML = email.archived ? "Unarchive" : "Archive";
         archive.type = "submit";
+        archive.onclick = "inbox();";
         //createing clickable layer
         const newEmail = document.createElement("div");
         newEmail.className = "single-email mb-1";
         //creating element that will contain the sender and the subject
         const senderSection = document.createElement("a");
         senderSection.className = "senderSection";
-        senderSection.onmouseover = "";
         //content of the row
         const sender = document.createElement("h4");
         const subject = document.createElement("p");
@@ -144,7 +144,7 @@ function load_mailbox(mailbox) {
               archived: email.archived ? false : true,
             }),
           });
-          window.location.reload();
+          window.location = "/";
         });
         document.querySelector("#emails-view").append(newEmail);
       });
