@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const inboxBtn = document.querySelector("#inbox");
   inboxBtn.addEventListener("click", () => {
     const section = inboxBtn.dataset.section;
-    history.pushState({ section: section }, "", `${section}`);
+    history.pushState({ section: section }, "", section);
     load_mailbox(section);
   });
   const sentBtn = document.querySelector("#sent");
@@ -124,7 +124,7 @@ function load_mailbox(mailbox) {
           history.pushState(
             { currentMail: currentMail },
             "",
-            `${mailbox}/${currentMail}`
+            `${mailbox}?mail=${currentMail}`
           );
           singleEmail(
             singleId,
@@ -222,5 +222,6 @@ const send_email = (event) => {
     .then((result) => {
       console.log(result);
       load_mailbox("sent");
+      document.location.href = "/";
     });
 };
