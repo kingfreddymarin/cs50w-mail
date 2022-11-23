@@ -79,7 +79,7 @@ function load_mailbox(mailbox) {
         const singleBody = email.body;
         const singleRecipients = email.recipients;
         const singleRead = email.read;
-
+        //assigning data set value to email
         const archiveDiv = document.createElement("div");
         archiveDiv.className = "archiveDiv d-flex align-items-center";
 
@@ -92,11 +92,10 @@ function load_mailbox(mailbox) {
         //createing clickable layer
         const newEmail = document.createElement("div");
         newEmail.className = "single-email mb-1";
-        // newEmail.href = "#";
         //creating element that will contain the sender and the subject
         const senderSection = document.createElement("a");
         senderSection.className = "senderSection";
-        senderSection.href = "#";
+        senderSection.onmouseover = "";
         //content of the row
         const sender = document.createElement("h4");
         const subject = document.createElement("p");

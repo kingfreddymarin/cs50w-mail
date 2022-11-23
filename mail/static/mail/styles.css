@@ -35,6 +35,7 @@ a {
   align-items: center;
   margin: 0;
   gap: 1em;
+  cursor: pointer;
 }
 .single-email h4,
 p {
