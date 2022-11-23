@@ -21,12 +21,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function compose_email() {
-  // // Show compose view and hide other views
-  // if (sender.pointerId) {
-  //   sender = "";
-  // } else {
-  //   sender = sender;
-  // }
   document.querySelector("#emails-view").style.display = "none";
   document.querySelector("#compose-view").style.display = "block";
   document.querySelector("#single-email").style.display = "none";
@@ -72,7 +66,7 @@ function load_mailbox(mailbox) {
         archive.type = "submit";
         //createing clickable layer
         const newEmail = document.createElement("div");
-        newEmail.className = "single-email";
+        newEmail.className = "single-email mb-1";
         // newEmail.href = "#";
         //creating element that will contain the sender and the subject
         const senderSection = document.createElement("a");
@@ -110,6 +104,7 @@ function load_mailbox(mailbox) {
             singleRecipients
           )
         );
+        //archive and unarchive by clicking
         archive.addEventListener("click", () => {
           fetch(`/emails/${email.id}`, {
             method: "PUT",
