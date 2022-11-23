@@ -54,6 +54,7 @@ function load_mailbox(mailbox) {
         const singleTimestamp = email.timestamp;
         const singleBody = email.body;
         const singleRecipients = email.recipients;
+        const singleRead = email.read;
 
         const archiveDiv = document.createElement("div");
         archiveDiv.className = "archiveDiv d-flex align-items-center";
@@ -101,7 +102,8 @@ function load_mailbox(mailbox) {
             singleSubject,
             singleBody,
             singleTimestamp,
-            singleRecipients
+            singleRecipients,
+            singleRead
           )
         );
         //archive and unarchive by clicking
@@ -125,14 +127,17 @@ const singleEmail = (
   singleSubject,
   singleBody,
   singleTimestamp,
-  singleRecipients
+  singleRecipients,
+  singleRead
 ) => {
-  fetch(`/emails/${singleId}`, {
-    method: "PUT",
-    body: JSON.stringify({
-      read: true,
-    }),
-  });
+  if (!singleRead) {
+    fetch(`/emails/${singleId}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        read: true,
+      }),
+    });
+  }
   document.querySelector("#emails-view").style.display = "none";
   document.querySelector("#compose-view").style.display = "none";
   document.querySelector("#single-email").style.display = "block";
@@ -152,7 +157,7 @@ const singleEmail = (
   ).innerHTML = `To: ${singleRecipients}`;
 
   //click reply button
-  document.getElementById("reply-form").addEventListener("click", () => {
+  document.getElementById("reply").addEventListener("click", () => {
     compose_email();
 
     document.querySelector("#compose-recipients").value = singleSender;
