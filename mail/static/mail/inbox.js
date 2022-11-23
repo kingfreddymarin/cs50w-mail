@@ -21,7 +21,12 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function compose_email() {
-  // Show compose view and hide other views
+  // // Show compose view and hide other views
+  // if (sender.pointerId) {
+  //   sender = "";
+  // } else {
+  //   sender = sender;
+  // }
   document.querySelector("#emails-view").style.display = "none";
   document.querySelector("#compose-view").style.display = "block";
   document.querySelector("#single-email").style.display = "none";
@@ -129,6 +134,21 @@ const singleEmail = (
   document.getElementById(
     "single-email-recipients"
   ).innerHTML = `To: ${singleRecipients}`;
+
+  //click reply button
+  document.getElementById("reply-form").addEventListener("submit", () => {
+    compose_email();
+
+    document.querySelector("#compose-recipients").value = singleSender;
+    document.querySelector("#compose-subject").value = singleSender.includes(
+      "Re: "
+    )
+      ? singleSubject
+      : `Re: '${singleSubject}'`;
+    document.querySelector(
+      "#compose-body"
+    ).value = `${singleTimestamp} ${singleSender} wrote: ${singleBody}`;
+  });
 };
 
 const send_email = (event) => {
