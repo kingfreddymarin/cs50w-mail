@@ -1,14 +1,32 @@
+window.onpopstate = function (event) {
+  if (event.state === null) {
+    load_mailbox("inbox");
+  } else if (event.state.section === "compose") {
+    compose_email();
+  } else {
+    load_mailbox(event.state.section);
+  }
+};
 document.addEventListener("DOMContentLoaded", function () {
   // Use buttons to toggle between views
-  document
-    .querySelector("#inbox")
-    .addEventListener("click", () => load_mailbox("inbox"));
-  document
-    .querySelector("#sent")
-    .addEventListener("click", () => load_mailbox("sent"));
-  document
-    .querySelector("#archived")
-    .addEventListener("click", () => load_mailbox("archive"));
+  const inboxBtn = document.querySelector("#inbox");
+  inboxBtn.addEventListener("click", () => {
+    const section = inboxBtn.dataset.section;
+    history.pushState({ section: section }, "", `${section}`);
+    load_mailbox(section);
+  });
+  const sentBtn = document.querySelector("#sent");
+  sentBtn.addEventListener("click", () => {
+    const section = sentBtn.dataset.section;
+    history.pushState({ section: section }, "", `${section}`);
+    load_mailbox(section);
+  });
+  const archivedBtn = document.querySelector("#archived");
+  archivedBtn.addEventListener("click", () => {
+    const section = archivedBtn.dataset.section;
+    history.pushState({ section: section }, "", `${section}`);
+    load_mailbox(section);
+  });
   document.querySelector("#compose").addEventListener("click", compose_email);
 
   //submitting a mail
@@ -21,6 +39,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function compose_email() {
+  const composeBtn = document.getElementById("compose");
+  const section = composeBtn.dataset.section;
+  history.pushState({ section: section }, "", `${section}`);
   document.querySelector("#emails-view").style.display = "none";
   document.querySelector("#compose-view").style.display = "block";
   document.querySelector("#single-email").style.display = "none";
