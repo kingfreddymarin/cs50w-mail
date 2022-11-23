@@ -24,6 +24,7 @@ function compose_email() {
   // Show compose view and hide other views
   document.querySelector("#emails-view").style.display = "none";
   document.querySelector("#compose-view").style.display = "block";
+  document.querySelector("#single-email").style.display = "none";
 
   // Clear out composition fields
   document.querySelector("#compose-recipients").value = "";
@@ -35,6 +36,7 @@ function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   document.querySelector("#emails-view").style.display = "block";
   document.querySelector("#compose-view").style.display = "none";
+  document.querySelector("#single-email").style.display = "none";
 
   // Show the mailbox name
   document.querySelector("#emails-view").innerHTML = `<h3>${
@@ -46,6 +48,8 @@ function load_mailbox(mailbox) {
     .then((response) => response.json())
     .then((emails) => {
       emails.forEach((email) => {
+        //getting the email's id
+        const id = email.id;
         //createing clickable layer
         const newEmail = document.createElement("a");
         newEmail.className = "single-email";
@@ -68,14 +72,20 @@ function load_mailbox(mailbox) {
         newEmail.appendChild(senderSection);
         newEmail.appendChild(timestamp);
 
-        newEmail.addEventListener("click", function () {
-          console.log("This element has been clicked!");
-        });
+        newEmail.addEventListener("click", () => singleEmail(id));
 
         document.querySelector("#emails-view").append(newEmail);
       });
     });
 }
+
+const singleEmail = (id) => {
+  document.querySelector("#emails-view").style.display = "none";
+  document.querySelector("#compose-view").style.display = "none";
+  document.querySelector("#single-email").style.display = "block";
+
+  console.log(id);
+};
 
 const send_email = (event) => {
   event.preventDefault();
