@@ -136,11 +136,11 @@ const singleEmail = (
   ).innerHTML = `To: ${singleRecipients}`;
 
   //click reply button
-  document.getElementById("reply-form").addEventListener("submit", () => {
+  document.getElementById("reply-form").addEventListener("click", () => {
     compose_email();
 
     document.querySelector("#compose-recipients").value = singleSender;
-    document.querySelector("#compose-subject").value = singleSender.includes(
+    document.querySelector("#compose-subject").value = singleSubject.includes(
       "Re: "
     )
       ? singleSubject
