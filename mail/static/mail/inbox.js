@@ -1,10 +1,10 @@
 window.onpopstate = function (event) {
   if (event.state === null) {
     load_mailbox("inbox");
-  } else if (event.state.section === "compose") {
-    compose_email();
   } else {
-    load_mailbox(event.state.section);
+    event.state.section === "compose"
+      ? compose_email()
+      : load_mailbox(event.state.section);
   }
 };
 document.addEventListener("DOMContentLoaded", function () {
@@ -27,7 +27,13 @@ document.addEventListener("DOMContentLoaded", function () {
     history.pushState({ section: section }, "", `${section}`);
     load_mailbox(section);
   });
-  document.querySelector("#compose").addEventListener("click", compose_email);
+  const composeBtn = document.getElementById("compose");
+
+  composeBtn.addEventListener("click", () => {
+    const section = composeBtn.dataset.section;
+    history.pushState({ section: section }, "", `${section}`);
+    compose_email();
+  });
 
   //submitting a mail
   document
@@ -39,9 +45,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function compose_email() {
-  const composeBtn = document.getElementById("compose");
-  const section = composeBtn.dataset.section;
-  history.pushState({ section: section }, "", `${section}`);
   document.querySelector("#emails-view").style.display = "none";
   document.querySelector("#compose-view").style.display = "block";
   document.querySelector("#single-email").style.display = "none";
