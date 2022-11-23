@@ -112,13 +112,20 @@ function load_mailbox(mailbox) {
         archiveDiv.appendChild(timestamp);
         mailbox === "sent" ? "" : archiveDiv.appendChild(archive);
         newEmail.appendChild(archiveDiv);
+        newEmail.setAttribute("data-mail", `${singleId}`);
 
         const defaultClass = newEmail.className;
         newEmail.className = email.read
           ? `${defaultClass} read`
           : `${defaultClass} unread`;
 
-        senderSection.addEventListener("click", () =>
+        senderSection.addEventListener("click", () => {
+          const currentMail = newEmail.dataset.mail;
+          history.pushState(
+            { currentMail: currentMail },
+            "",
+            `${mailbox}/${currentMail}`
+          );
           singleEmail(
             singleId,
             singleSender,
@@ -127,8 +134,8 @@ function load_mailbox(mailbox) {
             singleTimestamp,
             singleRecipients,
             singleRead
-          )
-        );
+          );
+        });
         //archive and unarchive by clicking
         archive.addEventListener("click", () => {
           fetch(`/emails/${email.id}`, {
