@@ -69,6 +69,7 @@ function load_mailbox(mailbox) {
           ? "btn-sm btn-light ml-2"
           : "btn-sm btn-dark ml-2";
         archive.innerHTML = email.archived ? "Unarchive" : "Archive";
+        archive.type = "submit";
         //createing clickable layer
         const newEmail = document.createElement("div");
         newEmail.className = "single-email";
@@ -116,6 +117,7 @@ function load_mailbox(mailbox) {
               archived: email.archived ? false : true,
             }),
           });
+          window.location.reload();
         });
         document.querySelector("#emails-view").append(newEmail);
       });
